@@ -182,9 +182,9 @@ int main(int argc, char **argv){
     fprintf(fd, "#lambda = %lf\n", lambda);
     for(n=0; n<numberofeigenstates; ++n){
         if(kcal_flag == 1){
-        fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
         }else{
-        fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
         }
     }
 
@@ -218,7 +218,11 @@ int main(int argc, char **argv){
         }
 
         fprintf(fd, "% 8.8lf\t", x);
-        fprintf(fd, "% 19.8lf\t", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
+        if(kcal_flag == 1){
+            fprintf(fd, "% 19.8lf\t", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x))/4.184);
+        }else{
+            fprintf(fd, "% 19.8lf\t", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
+        }
         for(n=0; n<numberofeigenstates; ++n){
             fprintf(fd, "% 15.8lf\t", E[n] + N[n] * expz * powz[n] * L[n]);
         }
