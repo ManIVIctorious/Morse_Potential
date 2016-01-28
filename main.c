@@ -73,9 +73,9 @@ int main(int argc, char **argv){
         L1 = 2*lambda - 2 - z;
         //Ln=( (2*(n-1) + 1 + 2*lambda-2*n-1 - z)*L(n-1) - (n - 1 + 2*lambda-2*n-1)*L(n-2) )/n;
         L2 = ( (2*(2-1) + 1 + 2*lambda-2*2-1 - z)*L1 - (2 - 1 + 2*lambda-2*2-1)*L0 )/2;
-        L3 = ( (2*(3-1) + 1 + 2*lambda-2*3-1 - z)*L1 - (3 - 1 + 2*lambda-2*3-1)*L0 )/3;
-        L4 = ( (2*(4-1) + 1 + 2*lambda-2*4-1 - z)*L1 - (4 - 1 + 2*lambda-2*4-1)*L0 )/4;
-        L5 = ( (2*(5-1) + 1 + 2*lambda-2*5-1 - z)*L1 - (5 - 1 + 2*lambda-2*5-1)*L0 )/5;
+        L3 = ( (2*(3-1) + 1 + 2*lambda-2*3-1 - z)*L2 - (3 - 1 + 2*lambda-2*3-1)*L1 )/3;
+        L4 = ( (2*(4-1) + 1 + 2*lambda-2*4-1 - z)*L3 - (4 - 1 + 2*lambda-2*4-1)*L2 )/4;
+        L5 = ( (2*(5-1) + 1 + 2*lambda-2*5-1 - z)*L4 - (5 - 1 + 2*lambda-2*5-1)*L3 )/5;
 
         printf("%lf  ", x);
         printf("%lf  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
