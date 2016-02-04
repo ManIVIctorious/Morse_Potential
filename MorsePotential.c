@@ -189,11 +189,9 @@ int main(int argc, char **argv){
     }
 
     // Calculate E+Psi and output data
-    //fprintf(fd, "# x\tV(x)\tE0+Psi0\tE1+Psi1\t...En+Psin\n");
-    fprintf(fd, "#  x\t\t");
-    fprintf(fd, " V(x)\t\t\t");
+    fprintf(fd, "#           x                     V               ");
     for(n=0; n<numberofeigenstates; ++n){
-        fprintf(fd, " E%d+Psi%d\t", n,n);
+        fprintf(fd, "      E%2d + Psi%2d     ", n, n);
     }
     fprintf(fd, "\n");
     for(x = xmin; x <= xmax; x += dx){
@@ -217,14 +215,14 @@ int main(int argc, char **argv){
             L[n] = ( (2*((double)n-1) + 1 + 2*lambda-2*(double)n-1 - z)*L[n-1] - ((double)n - 1 + 2*lambda-2*(double)n-1)*L[n-2])/(double)n;
         }
 
-        fprintf(fd, "% 8.8lf\t", x);
+        fprintf(fd, "% 20.12lf  ", x);
         if(kcal_flag == 1){
-            fprintf(fd, "% 19.8lf\t", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x))/4.184);
+            fprintf(fd, "% 20.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x))/4.184);
         }else{
-            fprintf(fd, "% 19.8lf\t", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
+            fprintf(fd, "% 20.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
         }
         for(n=0; n<numberofeigenstates; ++n){
-            fprintf(fd, "% 15.8lf\t", E[n] + N[n] * expz * powz[n] * L[n]);
+            fprintf(fd, "% 20.12lf  ", E[n] + N[n] * expz * powz[n] * L[n]);
         }
         fprintf(fd, "\n");                                   
     }
