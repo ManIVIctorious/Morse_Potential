@@ -169,22 +169,24 @@ int main(int argc, char **argv){
         N[n] = sqrt(((double)factorial(n)*(2.0*lambda-2.0*(double)n-1.0))/gsl_sf_gamma(2.0*lambda - (double)n));
     }
 
-    fprintf(fd, "#D = %lf kJ/mol\n", D);
-    fprintf(fd, "#alpha = %lf\n", alpha);
-    fprintf(fd, "#reduced mass = %lf g/mol\n", mu);
+    fprintf(fd, "# Morse Potential\n");
+    fprintf(fd, "#  V(x) = D*(1-exp(-alpha*(x-x0)))^2\n");
+    fprintf(fd, "# D:            %+18.12e kJ/mol\n", D);
+    fprintf(fd, "# alpha:        %+18.12e 1/angstrom\n", alpha);
+    fprintf(fd, "# reduced mass: %+18.12e g/mol\n", mu);
     if(kcal_flag==1){
-    fprintf(fd, "#EvalTerm1 = %lf kcal/mol\n", EvalTerm1);
-    fprintf(fd, "#EvalTerm2 = %lf kcal/mol\n", EvalTerm2);
+    fprintf(fd, "# EvalTerm1:    %+18.12e kcal/mol\n", EvalTerm1);
+    fprintf(fd, "# EvalTerm2:    %+18.12e kcal/mol\n", EvalTerm2);
     }else{
-    fprintf(fd, "#EvalTerm1 = %lf kJ/mol\n", EvalTerm1);
-    fprintf(fd, "#EvalTerm2 = %lf kJ/mol\n", EvalTerm2);
+    fprintf(fd, "# EvalTerm1:    %+18.12e kJ/mol\n", EvalTerm1);
+    fprintf(fd, "# EvalTerm2:    %+18.12e kJ/mol\n", EvalTerm2);
     }
-    fprintf(fd, "#lambda = %lf\n", lambda);
+    fprintf(fd, "# lambda:       %+18.12e\n", lambda);
     for(n=0; n<numberofeigenstates; ++n){
         if(kcal_flag == 1){
-            fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#\tN%d = % 26.20lf\t E%d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
         }else{
-            fprintf(fd, "#N%d = % 26.20lf\t E%d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#\tN%d = % 26.20lf\t E%d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
         }
     }
 
