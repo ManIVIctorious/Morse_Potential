@@ -184,16 +184,16 @@ int main(int argc, char **argv){
     fprintf(fd, "# lambda:       %+18.12e\n", lambda);
     for(n=0; n<numberofeigenstates; ++n){
         if(kcal_flag == 1){
-            fprintf(fd, "#\tN%d = % 26.20lf\t E%d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#\tN%02d = % 26.20lf\t E%02d = % 26.20lf kcal/mol\n", n, N[n], n, E[n]);
         }else{
-            fprintf(fd, "#\tN%d = % 26.20lf\t E%d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
+            fprintf(fd, "#\tN%02d = % 26.20lf\t E%02d = % 26.20lf kJ/mol\n", n, N[n], n, E[n]);
         }
     }
 
     // Calculate E+Psi and output data
     fprintf(fd, "#           x                     V               ");
     for(n=0; n<numberofeigenstates; ++n){
-        fprintf(fd, "      E%2d + Psi%2d     ", n, n);
+        fprintf(fd, "      E%02d + Psi%02d     ", n, n);
     }
     fprintf(fd, "\n");
     for(x = xmin; x <= xmax; x += dx){
@@ -217,14 +217,14 @@ int main(int argc, char **argv){
             L[n] = ( (2*((double)n-1) + 1 + 2*lambda-2*(double)n-1 - z)*L[n-1] - ((double)n - 1 + 2*lambda-2*(double)n-1)*L[n-2])/(double)n;
         }
 
-        fprintf(fd, "% 20.12lf  ", x);
+        fprintf(fd, "% 26.18lf  ", x);
         if(kcal_flag == 1){
-            fprintf(fd, "% 20.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x))/4.184);
+            fprintf(fd, "% 26.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x))/4.184);
         }else{
-            fprintf(fd, "% 20.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
+            fprintf(fd, "% 26.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
         }
         for(n=0; n<numberofeigenstates; ++n){
-            fprintf(fd, "% 20.12lf  ", E[n] + N[n] * expz * powz[n] * L[n]);
+            fprintf(fd, "% 26.18lf  ", E[n] + N[n] * expz * powz[n] * L[n]);
         }
         fprintf(fd, "\n");                                   
     }
