@@ -141,8 +141,8 @@ int main(int argc, char **argv){
     // constants
     double pi       = 3.14159265358979323846;
     double planck   = 6.626070040E-34;          // Js
-    double hbar     = 1.05457180013E-34;        // Js           planck/(2*pi)
-    double avogadro = 6.02214085774E23;         // 1/mol
+    double hbar     = 1.054571800E-34;          // Js           planck/(2*pi)
+    double avogadro = 6.022140857E23;           // 1/mol
 
     // begin calculation of Eigenvalues E
     // eval = planck*alpha/(2*pi)*sqrt(2*D/mu)       * (n + 0.5)            term1*(n+0.5)
