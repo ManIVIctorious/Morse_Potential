@@ -13,13 +13,13 @@ int main(int argc, char **argv){
     // dynamic variables
     double D = 426.369999999928;    // kJ/mol
     double alpha = 2.511;           // 1/angstrom
-    double mu = 1;                  // g/mol
+    double mu = 1.0;                // g/mol
     double dx = 0.025;              // angstrom
     double xmin = -2.5;             // angstrom
     double xmax =  2.5;             // angstrom
     char *outputfile = "/dev/stdout";
     static int kcal_flag = 0; // set flag to kcal/mol
-    int numberofeigenstates=6;
+    int numberofeigenstates = 6;
 
     int c;
     while(1){
@@ -139,21 +139,20 @@ int main(int argc, char **argv){
     FILE *fd = fopen(outputfile, "w");
 
     // constants
-    double pi       = 3.14159265358979323846;
+    double pi       = 3.1415926535897932384626433832795;
     double planck   = 6.626070040E-34;          // Js
-    double hbar     = 1.054571800E-34;          // Js           planck/(2*pi)
     double avogadro = 6.022140857E23;           // 1/mol
 
     // begin calculation of Eigenvalues E
     // eval = planck*alpha/(2*pi)*sqrt(2*D/mu)       * (n + 0.5)            term1*(n+0.5)
     //      - planck*planck*alpha*alpha/(8*pi*pi*mu) * (n*(n + 1) + 0.25)   term2*(n*n+n+0.25)
     EvalTerm1 =           1.0E10/(2.0*pi)*avogadro * planck*alpha*sqrt(2.0*D/mu);   // kJ/mol
-    EvalTerm2 = 1.0E20/(8*pi*pi)*avogadro*avogadro * planck*planck*alpha*alpha/mu;  // kJ/mol
+    EvalTerm2 = 1.0E20/(8.0*pi*pi)*avogadro*avogadro * planck*planck*alpha*alpha/mu;  // kJ/mol
 
     // convert to kcal/mol
     if(kcal_flag == 1){
-        EvalTerm1 /=4.184;
-        EvalTerm2 /=4.184;
+        EvalTerm1 /= 4.184;
+        EvalTerm2 /= 4.184;
     }
 
     // get eigenvalues
@@ -163,7 +162,7 @@ int main(int argc, char **argv){
 
     // begin calculation of eigenvectors Psi:
     // evec = N(n) * exp(-0.5*z) * z^(lambda-n-0.5) * L(n,x,lambda)
-    lambda = 1/(1.0E10*avogadro) * sqrt(2*mu*D)/(alpha*hbar);        // dimensionless 
+    lambda = 1.0/(1.0E10*avogadro) * sqrt(2.0*mu*D)/(alpha*planck/(2.0*pi));      // dimensionless 
 
     for(n=0; n<numberofeigenstates; ++n){
         N[n] = sqrt(((double)factorial(n)*(2.0*lambda-2.0*(double)n-1.0))/gsl_sf_gamma(2.0*lambda - (double)n));
@@ -198,7 +197,7 @@ int main(int argc, char **argv){
     fprintf(fd, "\n");
     for(x = xmin; x <= xmax; x += dx){
         
-        z = 2*lambda*exp(-alpha*x); //no dimension
+        z = 2.0*lambda*exp(-alpha*x); //no dimension
         
         expz = exp(-0.5*z);
     
@@ -211,10 +210,10 @@ int main(int argc, char **argv){
         // Ln(z,a)=( (2*(n-1) + 1 + a - z)*L(n-1) - (n - 1 + a)*L(n-2) )/n;
         // L[0] = 1; L[1] = 1+a-z;
         // in the given case:   a = 2*lambda-2*n-1;
-        L[0] = 1;
-        L[1] = 1 + 2*lambda-2*1-1 - z;
+        L[0] = 1.0;
+        L[1] = 1.0 + 2.0*lambda-2.0*1.0-1.0 - z;
         for(n=2; n<numberofeigenstates; ++n){
-            L[n] = ( (2*((double)n-1) + 1 + 2*lambda-2*(double)n-1 - z)*L[n-1] - ((double)n - 1 + 2*lambda-2*(double)n-1)*L[n-2])/(double)n;
+            L[n] = ( (2.0*((double)n-1.0) + 1.0 + 2.0*lambda-2.0*(double)n-1.0 - z)*L[n-1] - ((double)n - 1.0 + 2.0*lambda-2.0*(double)n-1.0)*L[n-2])/(double)n;
         }
 
         fprintf(fd, "% 26.18lf  ", x);
