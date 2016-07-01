@@ -19,13 +19,15 @@ int main(int argc, char **argv){
     double xmax =  2.5;             // angstrom
     char *outputfile = "/dev/stdout";
     static int kcal_flag = 0; // set flag to kcal/mol
+    static int evecs_flag = 0;
     int numberofeigenstates = 6;
 
     int c;
     while(1){
         static struct option long_options[] = {
             /* These options set a flag. */
-            {"kcal", no_argument, &kcal_flag, 1},
+            {"kcal",  no_argument, &kcal_flag , 1},
+            {"evecs", no_argument, &evecs_flag, 1},
             /* These options don’t set a flag.
                We distinguish them by their indices. */
             {"help",                  no_argument,       0, 'h'},
@@ -87,6 +89,7 @@ int main(int argc, char **argv){
                 printf("-o, --output-file\t\tName of output file\n");
                 printf("-n, --number-of-eigenstates\tNumber of calculated eigenstates\n");
                 printf("    --kcal\t\t\tOutput in kcal/mol\n");
+                printf("    --evecs\t\t\tOutput eigenvectors directly (don't add evals)");
                 printf("\n");
                 exit (0);
 
@@ -222,8 +225,15 @@ int main(int argc, char **argv){
         }else{
             fprintf(fd, "% 26.18e  ", D*(1.0 - 2.0*exp(-alpha*x) + exp(-2.0*alpha*x)));
         }
-        for(n=0; n<numberofeigenstates; ++n){
-            fprintf(fd, "% 26.18lf  ", E[n] + N[n] * expz * powz[n] * L[n]);
+
+        if(evecs_flag == 0){
+            for(n=0; n<numberofeigenstates; ++n){
+                fprintf(fd, "% 26.18lf  ", E[n] + N[n] * expz * powz[n] * L[n]);
+            }
+        } else{
+            for(n=0; n<numberofeigenstates; ++n){
+                fprintf(fd, "% 26.18lf  ", N[n] * expz * powz[n] * L[n]);
+            }
         }
         fprintf(fd, "\n");                                   
     }
