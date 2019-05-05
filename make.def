@@ -1,0 +1,13 @@
+# Executable name
+  EXENAME = morse-potential
+
+# Additional libraries, includes and packages
+  LIB      = -lm
+  INC      = 
+  PACKAGES = gsl
+
+# Preprocessor flags
+  PPF = 
+
+# Source Files
+  SRC += MorsePotential.c
